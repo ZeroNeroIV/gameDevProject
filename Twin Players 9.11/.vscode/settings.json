@@ -51,5 +51,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Twin Players 9.11.sln"
+    "dotnet.defaultSolution": "Twin Players 9.11.sln",
+    "C_Cpp.errorSquiggles": "enabled"
 }

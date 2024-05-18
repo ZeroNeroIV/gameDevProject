@@ -15,9 +15,6 @@ public class PlayerControl : MonoBehaviour
     // They are all connected to the PlayerInput, which is attached to the player as a component.
     // Their setup is as follows:
     private PlayerInput _playerInput;
-    private InputAction _moveAction;
-    private InputAction _jumpAction;
-    private InputAction _lookAction;
 
     private InputAction _fireAction;
     // And continued in the "Start" functions.
@@ -29,11 +26,11 @@ public class PlayerControl : MonoBehaviour
     // Each variable is used for its corresponding action.
 
     //** MOVEMENT: This variable is used to store the value of the movement action.
-    //? (Press/Hold) - (Changing the X and Z axises for Position)
+    //? (Press/Hold) - (Changing the X and Z axes for Position)
     private Vector2 _movementActionValue;
 
     //** LOOK: This variable is used to store the value of the look action.
-    //? (Press/Hold) - (Changing the X and Y axises for Rotation)
+    //? (Press/Hold) - (Changing the X and Y axes for Rotation)
     private Vector2 _lookActionValue;
 
     //** FIRE: This variable is used to store the value of the fire action.
@@ -43,6 +40,8 @@ public class PlayerControl : MonoBehaviour
     //------------------------------------------------------------------------------------------------------------//
 
     //! CUSTOM VARIABLES:
+
+    private GameObject _head;
 
     //? Rigidbody -- for better physics
     private Rigidbody _rb;
@@ -58,6 +57,8 @@ public class PlayerControl : MonoBehaviour
 
     //? Rotation speed
     private const float RotationSpeed = 50f;
+    private const float ClampValue = .45f;
+    private Vector3 _currentRotation = Vector3.zero;
 
     //? Jump height
     private const float JumpHeight = 30f;
@@ -66,6 +67,8 @@ public class PlayerControl : MonoBehaviour
     private bool _delayJump = false;
     private const int DefaultDelayJumpTime = 150;
     private int _delayJumpTime = DefaultDelayJumpTime;
+
+
 
     //------------------------------------------------------------------------------------------------------------//
 
@@ -82,64 +85,44 @@ public class PlayerControl : MonoBehaviour
                 After attaching the "Action" InputAction to the PlayerInput,
                 the "Default Map" should be set up depending on each Player (it varies for different players).
         */
-        //? Setting up each input action:
-        _moveAction = _playerInput.actions["Move"];
-        _jumpAction = _playerInput.actions["Jump"];
-        _lookAction = _playerInput.actions["Look"];
-        _fireAction = _playerInput.actions["Fire"];
 
+        _head = GameObject.Find($"{gameObject.name}/Head");
         //? Accessing the "Rigidbody" component.
         _rb = GetComponent<Rigidbody>();
+        _rb.useGravity = true;
+        _rb.velocity = 10 * Vector3.down;
     }
 
     // Update is called once per frame
-    private void FixedUpdate()
+    private void Update()
     {
-        //? Moving the player
-        MovePlayer();
-
-        //? Rotating the player/camera
-        LookPlayer();
-
-        //? Jumping
-        // If the key assigned for jumping is triggered (Press), the player jumps.
-        Jump();
-
         //? Equipping
         // For easiness, if the player moves through an equitable object, the player equips it.
         Equip();
-
-        //? Shooting
-        // If the key assigned for shooting bullets is triggered (Press/Hold), the player shoots bullets.
-        Shooting();
     }
 
-    // Function to move the player according to its inputs.
-    private void MovePlayer()
+    private void OnMove(InputValue val)
     {
-        _movementActionValue = _moveAction.ReadValue<Vector2>() * (Time.fixedDeltaTime * MovementSpeed);
+        _movementActionValue = val.Get<Vector2>() * (Time.deltaTime * MovementSpeed);
         gameObject.transform.Translate(new Vector3(_movementActionValue.y, 0, -_movementActionValue.x));
     }
 
-    // Function to rotate the player according to its inputs.
-    private void LookPlayer()
+    private void OnLook(InputValue val)
     {
-        _lookActionValue = _lookAction.ReadValue<Vector2>() * (Time.fixedDeltaTime * RotationSpeed);
-        gameObject.transform.Rotate(new Vector3(0, _lookActionValue.x, 0));
+
+        _lookActionValue = val.Get<Vector2>();
+        _currentRotation.z = _lookActionValue.y;
+        _currentRotation.y = Mathf.Clamp(_lookActionValue.x, -ClampValue, ClampValue);
+        _head.transform.rotation = Quaternion.Euler(_currentRotation);
     }
 
-    // Function to make the player jump according to its inputs.
-    private void Jump()
+    private void OnJump()
     {
         // If the action is triggered, there will be a delay for the next jump
         if (!_delayJump)
         {
-            if (_jumpAction.triggered)
-            {
-                // To jump smoothly, using rigidbody "AddForce" Method instead of normal position update.
-                _rb.AddForce(Vector2.up * JumpHeight, ForceMode.Impulse);
-            }
-
+            // To jump smoothly, using rigidbody "AddForce" Method instead of normal position update.
+            _rb.AddForce(Vector2.up * JumpHeight, ForceMode.Impulse);
             _delayJump = true;
         }
         else
@@ -152,16 +135,12 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    // Function to let the player pick/equip equitable objects.
     private void Equip()
     {
     }
 
-    // Function to shoot bullets according to the player's inputs.
-    private void Shooting()
+    private void OnFire(InputValue val)
     {
-        _fireActionValue = _fireAction.ReadValue<bool>();
-        if (_fireActionValue)
-            Instantiate(bullet, _shootingPosition.transform.position, _shootingPosition.transform.rotation);
+        Instantiate(bullet, _shootingPosition.transform.position, _shootingPosition.transform.rotation);
     }
 }

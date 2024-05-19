@@ -33,19 +33,19 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Equip",
+                    "name": "Jump",
                     "type": "Button",
-                    "id": "62ca33e9-dfae-47fc-90e7-b3346735b92b",
+                    "id": "ff9f1730-ef93-4a2f-91ab-5ad393732d69",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Jump",
-                    "type": "Button",
-                    "id": "ff9f1730-ef93-4a2f-91ab-5ad393732d69",
-                    "expectedControlType": "Button",
+                    "name": "Weapon Change",
+                    "type": "PassThrough",
+                    "id": "636e5051-5400-4ea0-8aba-9653ca14ba48",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -205,6 +205,61 @@
                     "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "584b773a-bdf2-48af-a632-6301e7a7b12e",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Weapon Change",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "13499ac9-29e8-44b8-8c10-8573f574ac61",
+                    "path": "<Mouse>/scroll/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Weapon Change",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "7d29694b-dada-42a0-8984-14ffcb65b47d",
+                    "path": "<Mouse>/scroll/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Weapon Change",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "2225c812-ef58-4af0-b635-469233cc348e",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6b496a5c-2a24-472a-b89c-7b3a6e04dba0",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -240,18 +295,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Equip",
+                    "name": "Jump",
                     "type": "Button",
-                    "id": "f3554756-68fe-4ab2-927d-82fb9ab59617",
+                    "id": "a71e38ad-5640-496c-97e8-7cc3cb27f8ff",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Jump",
+                    "name": "Weapon Change",
                     "type": "Button",
-                    "id": "a71e38ad-5640-496c-97e8-7cc3cb27f8ff",
+                    "id": "1ed171ed-6821-4ea5-a524-59499d72698b",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -412,6 +467,72 @@
                     "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "29acee3a-eaef-4116-8273-30dc1ae7deea",
+                    "path": "<Keyboard>/slash",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6237b26b-2192-434a-a8db-1a817699c871",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3c38739a-0ef0-4492-8c24-dad790e91c12",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Weapon Change",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "b93b0b39-9945-4708-ab58-0de2e9608c9c",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Weapon Change",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "0060fcf8-6c64-49c4-b628-6ca4bfcbe6d7",
+                    "path": "<Keyboard>/u",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Weapon Change",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "9483162a-b195-4bad-9397-f55e16d3bc27",
+                    "path": "<Keyboard>/o",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Weapon Change",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

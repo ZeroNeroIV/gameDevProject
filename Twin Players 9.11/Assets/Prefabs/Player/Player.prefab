@@ -960,7 +960,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6fa95d9af8504d958767a8a375488dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 0}
+  bullet: {fileID: 7199064363606223105, guid: dba92b298012b34ec96d2eb604c5470e, type: 3}
+  iceBullet: {fileID: 8235798917218611449, guid: d798ab36611debcefb81c694e1008721,
+    type: 3}
+  stunBullet: {fileID: 1031135134349368447, guid: 6c52e775e52b2b4798e50df9a464aa00,
+    type: 3}
+  poisonBullet: {fileID: 4491193117443213027, guid: 1964bba6927ae5fae82057ab13ac10af,
+    type: 3}
 --- !u!114 &7617537424392412678
 MonoBehaviour:
   m_ObjectHideFlags: 0

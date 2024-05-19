@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 /*
     This script controls all the basic player actions.
@@ -14,7 +13,6 @@ public class PlayerControl : MonoBehaviour
     // The following is for player input, movement, looking and jumping inputs are all taken from it.
     // They are all connected to the PlayerInput, which is attached to the player as a component.
     // Their setup is as follows:
-    private PlayerInput _playerInput;
 
     private InputAction _fireAction;
     // And continued in the "Start" functions.
@@ -46,8 +44,14 @@ public class PlayerControl : MonoBehaviour
     //? Rigidbody -- for better physics
     private Rigidbody _rb;
 
-    //? Bullet game object -- for shooting
+    //? Bullet game objects -- for shooting
+    private const int BulletCount = 4;
+    private int _currentBullet;
+    private GameObject[] _bullets;
     [SerializeField] private GameObject bullet;
+    [SerializeField] private GameObject iceBullet;
+    [SerializeField] private GameObject stunBullet;
+    [SerializeField] private GameObject poisonBullet;
 
     //? Shooting position -- the position for the bullets to be instantiated from.
     private GameObject _shootingPosition;
@@ -56,16 +60,17 @@ public class PlayerControl : MonoBehaviour
     private const float MovementSpeed = 50f;
 
     //? Rotation speed
-    private const float RotationSpeed = 50f;
-    private const float ClampValue = .45f;
-    private Vector3 _currentRotation = Vector3.zero;
+    // private const float RotationSpeed = 50f;
+    private const float RotationSpeed = 45f;
+    private const float ClampValue = 45f;
+    private Vector2 _currentRotation = Vector2.zero;
 
     //? Jump height
     private const float JumpHeight = 30f;
 
     //? Jumping delay
-    private bool _delayJump = false;
-    private const int DefaultDelayJumpTime = 150;
+    private bool _delayJump;
+    private const int DefaultDelayJumpTime = 30;
     private int _delayJumpTime = DefaultDelayJumpTime;
 
 
@@ -74,17 +79,9 @@ public class PlayerControl : MonoBehaviour
 
     private void Start()
     {
-        // continuing the setup for each input action:
+        _bullets = new[] { bullet, iceBullet, stunBullet, poisonBullet };
 
-        //? Accessing the "PlayerInput" component.
-        _playerInput = GetComponent<PlayerInput>();
-        /*
-            NOTE:
-            -- _playerInput is attached to the player as a component.
-            -- IMPORTANT:
-                After attaching the "Action" InputAction to the PlayerInput,
-                the "Default Map" should be set up depending on each Player (it varies for different players).
-        */
+        // continuing the setup for each input action
 
         _head = GameObject.Find($"{gameObject.name}/Head");
         //? Accessing the "Rigidbody" component.
@@ -96,6 +93,7 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        MoveAndLook();
         //? Equipping
         // For easiness, if the player moves through an equitable object, the player equips it.
         Equip();
@@ -104,19 +102,34 @@ public class PlayerControl : MonoBehaviour
     private void OnMove(InputValue val)
     {
         _movementActionValue = val.Get<Vector2>() * (Time.deltaTime * MovementSpeed);
-        gameObject.transform.Translate(new Vector3(_movementActionValue.y, 0, -_movementActionValue.x));
     }
-
     private void OnLook(InputValue val)
     {
-
         _lookActionValue = val.Get<Vector2>();
-        _currentRotation.z = _lookActionValue.y;
-        _currentRotation.y = Mathf.Clamp(_lookActionValue.x, -ClampValue, ClampValue);
-        _head.transform.rotation = Quaternion.Euler(_currentRotation);
     }
 
-    private void OnJump()
+    private void MoveAndLook()
+    {
+        gameObject.transform.position += Vector3.forward * _movementActionValue.y + Vector3.right * _movementActionValue.x;
+
+        _currentRotation.y -= _lookActionValue.x;
+        _currentRotation.x += _lookActionValue.y;
+        _currentRotation.x = Mathf.Clamp(_lookActionValue.x, -ClampValue, ClampValue);
+        _head.transform.rotation = Quaternion.Euler(new Vector3(_currentRotation.x, _currentRotation.y, 0f) * (RotationSpeed * Time.deltaTime));
+    }
+
+    private void OnChangeWeapon(InputValue val)
+    {
+        var value = val.Get<float>();
+        _currentBullet = value switch
+        {
+            > 0 => (_currentBullet + 1) % BulletCount,
+            < 0 => (_currentBullet - 1 + BulletCount) % BulletCount,
+            _ => _currentBullet
+        };
+    }
+
+    private void OnJump(InputValue val)
     {
         // If the action is triggered, there will be a delay for the next jump
         if (!_delayJump)
@@ -127,11 +140,9 @@ public class PlayerControl : MonoBehaviour
         }
         else
         {
-            if (--_delayJumpTime == 0)
-            {
-                _delayJump = false;
-                _delayJumpTime = DefaultDelayJumpTime;
-            }
+            if (--_delayJumpTime > 0) return;
+            _delayJump = false;
+            _delayJumpTime = DefaultDelayJumpTime;
         }
     }
 
@@ -141,6 +152,6 @@ public class PlayerControl : MonoBehaviour
 
     private void OnFire(InputValue val)
     {
-        Instantiate(bullet, _shootingPosition.transform.position, _shootingPosition.transform.rotation);
+        Instantiate(_bullets[_currentBullet], _shootingPosition.transform.position, _shootingPosition.transform.rotation);
     }
 }

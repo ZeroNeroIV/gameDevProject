@@ -62,7 +62,7 @@ public class PlayerControl : MonoBehaviour
     //? Rotation speed
     // private const float RotationSpeed = 50f;
     private const float RotationSpeed = 25f;
-    private const float ClampValue = .9f;
+    private const float ClampValue = 0.45f;
     private Vector2 _currentRotation = Vector2.zero;
 
     //? Jump height
@@ -103,7 +103,7 @@ public class PlayerControl : MonoBehaviour
     {
         _movementActionValue = val.Get<Vector2>() * (Time.deltaTime * MovementSpeed);
     }
-    private void OnLook(InputValue val)
+    void OnLook(InputValue val)
     {
         _lookActionValue = val.Get<Vector2>();
     }
@@ -111,12 +111,20 @@ public class PlayerControl : MonoBehaviour
     private void MoveAndLook()
     {
         gameObject.transform.Translate(new Vector3(_movementActionValue.y, 0f, -_movementActionValue.x) * (Time.deltaTime * MovementSpeed));
-
-        _currentRotation.y -= _lookActionValue.x;
-        _currentRotation.x += _lookActionValue.y;
-        _currentRotation.x = Mathf.Clamp(_lookActionValue.y, -ClampValue, ClampValue) * Mathf.Deg2Rad * RotationSpeed;
+        
+        _currentRotation.y = _lookActionValue.x;
+        _currentRotation.x = _lookActionValue.y;
+        
+        _currentRotation.x = Mathf.Clamp(_lookActionValue.y, -ClampValue, ClampValue) ;//* Mathf.Rad2Deg ;
+        Debug.Log($"for {_lookActionValue.y} between {-ClampValue} and {-ClampValue} -> {_currentRotation.x}");
         _head.transform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, _currentRotation.x));
-        gameObject.transform.localRotation = Quaternion.Euler(new Vector3(0f, -_currentRotation.y, 0f));
+        
+       // gameObject.transform.localRotation = Quaternion.Euler(new Vector3(0f, -_currentRotation.y, 0f));
+        //_head.transform.Rotate(0,0,1);
+        /*if(_head.transform.rotation.z<45f && _head.transform.rotation.z>-45f){
+            Debug.Log($"z={_head.transform.rotation.z}");
+            _head.transform.Rotate(new Vector3(0,0,_lookActionValue.y));
+        }*/
     }
 
     private void OnChangeWeapon(InputValue val)

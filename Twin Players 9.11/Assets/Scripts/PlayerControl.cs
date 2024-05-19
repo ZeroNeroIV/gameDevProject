@@ -9,17 +9,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerControl : MonoBehaviour
 {
-    //! NEW INPUT SYSTEM:
-    // The following is for player input, movement, looking and jumping inputs are all taken from it.
-    // They are all connected to the PlayerInput, which is attached to the player as a component.
-    // Their setup is as follows:
-
-    private InputAction _fireAction;
-    // And continued in the "Start" functions.
-    // Each input action is used in a separate function that is called in "Update".
-
-    //------------------------------------------------------------------------------------------------------------//
-
     //! NEW INPUT SYSTEM VARIABLES:
     // Each variable is used for its corresponding action.
 
@@ -40,6 +29,7 @@ public class PlayerControl : MonoBehaviour
     //! CUSTOM VARIABLES:
 
     private GameObject _head;
+    private Camera _camera;
 
     //? Rigidbody -- for better physics
     private Rigidbody _rb;
@@ -57,110 +47,99 @@ public class PlayerControl : MonoBehaviour
     private GameObject _shootingPosition;
 
     //? Movement speed
-    private const float MovementSpeed = 50f;
+    private const float MovementSpeed = 40f;
+    private bool _canMove = true;
 
     //? Rotation speed
-    // private const float RotationSpeed = 50f;
-    private const float RotationSpeed = 25f;
-    private const float ClampValue = 0.45f;
+    private const float RotationSpeed = 10f;
+    private const float ClampValue = 4.5f;
     private Vector2 _currentRotation = Vector2.zero;
 
     //? Jump height
-    private const float JumpHeight = 30f;
-
-    //? Jumping delay
-    private bool _delayJump;
-    private const int DefaultDelayJumpTime = 30;
-    private int _delayJumpTime = DefaultDelayJumpTime;
-
-
+    private const float JumpHeight = 70f;
 
     //------------------------------------------------------------------------------------------------------------//
 
     private void Start()
     {
+        // All bullet types.
         _bullets = new[] { bullet, iceBullet, stunBullet, poisonBullet };
-
-        // continuing the setup for each input action
-
+        // Shooting point.
+        _shootingPosition = GameObject.Find($"{gameObject.name}/Head/Shooting Point");
+        // Head of the player.
         _head = GameObject.Find($"{gameObject.name}/Head");
-        //? Accessing the "Rigidbody" component.
+        // Accessing the "Rigidbody" component.
         _rb = GetComponent<Rigidbody>();
-        _rb.useGravity = true;
-        _rb.velocity = 10 * Vector3.down;
+        // Accessing camera player component.
+        _camera = GetComponent<PlayerInput>().camera;
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
     private void Update()
     {
         MoveAndLook();
-        //? Equipping
-        // For easiness, if the player moves through an equitable object, the player equips it.
-        Equip();
     }
 
-    private void OnMove(InputValue val)
+    // When this gameObject collides - once for every new collision - with any collider.
+    private void OnCollisionEnter(Collision other)
     {
-        _movementActionValue = val.Get<Vector2>() * (Time.deltaTime * MovementSpeed);
+        if (other.collider.CompareTag("Terrain"))
+            _canMove = true;
     }
-    void OnLook(InputValue val)
+
+    // When this gameObject exits/ends a collision - once for every collision exit - with any collider.
+    private void OnCollisionExit(Collision other)
     {
-        _lookActionValue = val.Get<Vector2>();
+        if (other.collider.CompareTag("Terrain"))
+            _canMove = false;
     }
 
     private void MoveAndLook()
     {
-        gameObject.transform.Translate(new Vector3(_movementActionValue.y, 0f, -_movementActionValue.x) * (Time.deltaTime * MovementSpeed));
-        
-        _currentRotation.y = _lookActionValue.x;
-        _currentRotation.x = _lookActionValue.y;
-        
-        _currentRotation.x = Mathf.Clamp(_lookActionValue.y, -ClampValue, ClampValue) ;//* Mathf.Rad2Deg ;
-        Debug.Log($"for {_lookActionValue.y} between {-ClampValue} and {-ClampValue} -> {_currentRotation.x}");
-        _head.transform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, _currentRotation.x));
-        
-       // gameObject.transform.localRotation = Quaternion.Euler(new Vector3(0f, -_currentRotation.y, 0f));
-        //_head.transform.Rotate(0,0,1);
-        /*if(_head.transform.rotation.z<45f && _head.transform.rotation.z>-45f){
-            Debug.Log($"z={_head.transform.rotation.z}");
-            _head.transform.Rotate(new Vector3(0,0,_lookActionValue.y));
-        }*/
+        // Movement
+        if (_canMove)
+            _rb.AddRelativeForce(new Vector3(_movementActionValue.x, 0f, _movementActionValue.y), ForceMode.VelocityChange);
+        if (_canMove && _movementActionValue.Equals(new Vector2(0f, 0f)))
+        {
+            _rb.isKinematic = true;
+            _rb.isKinematic = false;
+        }
+        // Looking
+        _currentRotation.y -= _lookActionValue.x;
+        _currentRotation.x += _lookActionValue.y;
+
+        var newXRotation = Mathf.Clamp(_currentRotation.x - _lookActionValue.x, -ClampValue, ClampValue);
+        var newYRotation = _currentRotation.y - _lookActionValue.y;
+
+        _currentRotation.x = (_currentRotation.x + 36) % 36;
+        if (_currentRotation.x > 18)
+            _currentRotation.x -= 36;
+        _currentRotation.x = Mathf.Clamp(_currentRotation.x, -ClampValue, ClampValue);
+        //! NEEDS REVIEW -------------------------------------------------------------------------------------------------------------------------
+        _head.transform.rotation = Quaternion.Euler(new Vector3(-newXRotation, -newYRotation * 2f, 0f));
+        _rb.transform.localRotation = Quaternion.Euler(new Vector3(0f, -newYRotation * 2f, 0f));
     }
 
-    private void OnChangeWeapon(InputValue val)
-    {
-        var value = val.Get<float>();
-        _currentBullet = value switch
+    // Gets movement input values.
+    private void OnMove(InputValue val) => _movementActionValue = val.Get<Vector2>() * (Time.deltaTime * MovementSpeed);
+    // Gets looking input values.
+    private void OnLook(InputValue val) => _lookActionValue = val.Get<Vector2>() * (RotationSpeed * Time.deltaTime);
+
+    // Changes Bullet Type.
+    private void OnWeaponChange(InputValue val) => _currentBullet = val.Get<float>() switch
         {
             > 0 => (_currentBullet + 1) % BulletCount,
             < 0 => (_currentBullet - 1 + BulletCount) % BulletCount,
             _ => _currentBullet
         };
-    }
 
-    private void OnJump(InputValue val)
-    {
-        // If the action is triggered, there will be a delay for the next jump
-        if (!_delayJump)
-        {
-            // To jump smoothly, using rigidbody "AddForce" Method instead of normal position update.
-            _rb.AddForce(Vector2.up * JumpHeight, ForceMode.Impulse);
-            _delayJump = true;
-        }
-        else
-        {
-            if (--_delayJumpTime > 0) return;
-            _delayJump = false;
-            _delayJumpTime = DefaultDelayJumpTime;
-        }
-    }
+    // Jumping when the corresponding input is pressed.
+    // To jump smoothly, using rigidbody "AddForce" Method instead of normal position update.
+    private void OnJump(InputValue val) => _rb.AddForce(Vector3.up * JumpHeight, ForceMode.VelocityChange);
 
-    private void Equip()
-    {
-    }
 
-    private void OnFire(InputValue val)
-    {
-        Instantiate(_bullets[_currentBullet], _shootingPosition.transform.position, _shootingPosition.transform.rotation);
-    }
+    // Shooting when the corresponding input is pressed.
+    private void OnFire(InputValue val) => Instantiate(_bullets[_currentBullet], _shootingPosition.transform.position, _shootingPosition.transform.rotation);
 }

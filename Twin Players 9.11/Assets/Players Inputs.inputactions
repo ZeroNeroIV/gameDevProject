@@ -34,15 +34,15 @@
                 },
                 {
                     "name": "Jump",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "ff9f1730-ef93-4a2f-91ab-5ad393732d69",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Weapon Change",
+                    "name": "WeaponChange",
                     "type": "PassThrough",
                     "id": "636e5051-5400-4ea0-8aba-9653ca14ba48",
                     "expectedControlType": "Axis",
@@ -213,7 +213,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Weapon Change",
+                    "action": "WeaponChange",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -224,7 +224,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Weapon Change",
+                    "action": "WeaponChange",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -235,7 +235,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Weapon Change",
+                    "action": "WeaponChange",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -296,15 +296,15 @@
                 },
                 {
                     "name": "Jump",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "a71e38ad-5640-496c-97e8-7cc3cb27f8ff",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Weapon Change",
+                    "name": "WeaponChange",
                     "type": "Button",
                     "id": "1ed171ed-6821-4ea5-a524-59499d72698b",
                     "expectedControlType": "Button",
@@ -491,24 +491,13 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "3c38739a-0ef0-4492-8c24-dad790e91c12",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Weapon Change",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
                     "name": "1D Axis",
                     "id": "b93b0b39-9945-4708-ab58-0de2e9608c9c",
                     "path": "1DAxis",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Weapon Change",
+                    "action": "WeaponChange",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -519,7 +508,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Weapon Change",
+                    "action": "WeaponChange",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -530,7 +519,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Weapon Change",
+                    "action": "WeaponChange",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }

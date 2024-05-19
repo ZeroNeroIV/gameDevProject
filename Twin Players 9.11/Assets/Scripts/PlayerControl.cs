@@ -61,8 +61,8 @@ public class PlayerControl : MonoBehaviour
 
     //? Rotation speed
     // private const float RotationSpeed = 50f;
-    private const float RotationSpeed = 45f;
-    private const float ClampValue = 45f;
+    private const float RotationSpeed = 25f;
+    private const float ClampValue = .9f;
     private Vector2 _currentRotation = Vector2.zero;
 
     //? Jump height
@@ -110,12 +110,13 @@ public class PlayerControl : MonoBehaviour
 
     private void MoveAndLook()
     {
-        gameObject.transform.position += Vector3.forward * _movementActionValue.y + Vector3.right * _movementActionValue.x;
+        gameObject.transform.Translate(new Vector3(_movementActionValue.y, 0f, -_movementActionValue.x) * (Time.deltaTime * MovementSpeed));
 
         _currentRotation.y -= _lookActionValue.x;
         _currentRotation.x += _lookActionValue.y;
-        _currentRotation.x = Mathf.Clamp(_lookActionValue.x, -ClampValue, ClampValue);
-        _head.transform.rotation = Quaternion.Euler(new Vector3(_currentRotation.x, _currentRotation.y, 0f) * (RotationSpeed * Time.deltaTime));
+        _currentRotation.x = Mathf.Clamp(_lookActionValue.y, -ClampValue, ClampValue) * Mathf.Deg2Rad * RotationSpeed;
+        _head.transform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, _currentRotation.x));
+        gameObject.transform.localRotation = Quaternion.Euler(new Vector3(0f, -_currentRotation.y, 0f));
     }
 
     private void OnChangeWeapon(InputValue val)

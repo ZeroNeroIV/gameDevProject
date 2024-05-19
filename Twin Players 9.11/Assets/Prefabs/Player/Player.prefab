@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2148017683284963647}
   - component: {fileID: 8400253174457923231}
   - component: {fileID: 1230661527200466935}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Right Arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 6328559494197712739}
   - component: {fileID: 5343537268293642639}
   - component: {fileID: 6617685483246982772}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Camera Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -238,12 +238,12 @@ MonoBehaviour:
   m_RequiresColorTexture: 0
   m_Version: 2
   m_TaaSettings:
-    m_Quality: 3
-    m_FrameInfluence: 0.1
-    m_JitterScale: 1
-    m_MipBias: 0
-    m_VarianceClampScale: 0.9
-    m_ContrastAdaptiveSharpening: 0
+    quality: 3
+    frameInfluence: 0.1
+    jitterScale: 1
+    mipBias: 0
+    varianceClampScale: 0.9
+    contrastAdaptiveSharpening: 0
 --- !u!1 &1860387632932431660
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,7 +256,7 @@ GameObject:
   - component: {fileID: 7088630497486129729}
   - component: {fileID: 1158042809318121207}
   - component: {fileID: 3505625985553650517}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Left Eye Ball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -361,7 +361,7 @@ GameObject:
   - component: {fileID: 3582849911022139418}
   - component: {fileID: 853878466241021064}
   - component: {fileID: 1355900118899467985}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Right Eye Ball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -466,7 +466,7 @@ GameObject:
   - component: {fileID: 3149776080098965947}
   - component: {fileID: 1624472174083049029}
   - component: {fileID: 8831745352249301138}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Nose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -571,7 +571,7 @@ GameObject:
   - component: {fileID: 448262315938687930}
   - component: {fileID: 6620670139997126484}
   - component: {fileID: 6884651160719074417}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -678,7 +678,7 @@ GameObject:
   - component: {fileID: 3909536547946443880}
   - component: {fileID: 6098982160853552001}
   - component: {fileID: 1789194189601729444}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Left Arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -785,7 +785,7 @@ GameObject:
   - component: {fileID: 1467537148309966974}
   - component: {fileID: 827778686922834646}
   - component: {fileID: 280022989811126286}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -895,7 +895,7 @@ GameObject:
   - component: {fileID: -5245538897419889723}
   - component: {fileID: 7617537424392412678}
   - component: {fileID: 6126570954434676341}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -929,7 +929,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8538930731148022551}
   serializedVersion: 4
-  m_Mass: 10
+  m_Mass: 1
   m_Drag: 0.1
   m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}

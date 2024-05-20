@@ -1,4 +1,3 @@
-using System.Numerics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Quaternion = UnityEngine.Quaternion;
@@ -33,7 +32,6 @@ public class PlayerControl : MonoBehaviour
     //! CUSTOM VARIABLES:
 
     private GameObject _head;
-    private Camera _camera;
 
     //? Rigidbody -- for better physics
     private Rigidbody _rb;
@@ -74,8 +72,6 @@ public class PlayerControl : MonoBehaviour
         _head = GameObject.Find($"{gameObject.name}/Head");
         // Accessing the "Rigidbody" component.
         _rb = GetComponent<Rigidbody>();
-        // Accessing camera player component.
-        _camera = GetComponent<PlayerInput>().camera;
 
         Cursor.lockState = CursorLockMode.Locked;
     }

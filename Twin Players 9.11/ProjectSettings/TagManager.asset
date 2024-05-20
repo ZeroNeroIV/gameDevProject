@@ -8,6 +8,7 @@ TagManager:
   - Wall
   - Bullet
   - Item
+  - Plate
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - Plane
   - Wall
   - Item
-  - 
+  - Bullet
   - 
   - 
   - 

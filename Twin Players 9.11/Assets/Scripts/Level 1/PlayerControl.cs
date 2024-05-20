@@ -1,5 +1,9 @@
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Quaternion = UnityEngine.Quaternion;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 /*
     This script controls all the basic player actions.
@@ -52,7 +56,7 @@ public class PlayerControl : MonoBehaviour
 
     //? Rotation speed
     private const float RotationSpeed = 10f;
-    private const float ClampValue = 4.5f;
+    private const float ClampValue = 30f;
     private Vector2 _currentRotation = Vector2.zero;
 
     //? Jump height
@@ -85,14 +89,15 @@ public class PlayerControl : MonoBehaviour
     // When this gameObject collides - once for every new collision - with any collider.
     private void OnCollisionEnter(Collision other)
     {
-        if (other.collider.CompareTag("Terrain"))
+        if (other.collider.CompareTag("Terrain") || other.collider.CompareTag("Plate"))
             _canMove = true;
+
     }
 
     // When this gameObject exits/ends a collision - once for every collision exit - with any collider.
     private void OnCollisionExit(Collision other)
     {
-        if (other.collider.CompareTag("Terrain"))
+        if (other.collider.CompareTag("Terrain") || other.collider.CompareTag("Plate"))
             _canMove = false;
     }
 
@@ -113,17 +118,19 @@ public class PlayerControl : MonoBehaviour
         var newXRotation = Mathf.Clamp(_currentRotation.x - _lookActionValue.x, -ClampValue, ClampValue);
         var newYRotation = _currentRotation.y - _lookActionValue.y;
 
-        _currentRotation.x = (_currentRotation.x + 36) % 36;
-        if (_currentRotation.x > 18)
-            _currentRotation.x -= 36;
+        _currentRotation.x = (_currentRotation.x + 360f) % 360f;
+
+        if (_currentRotation.x > 180f)
+            _currentRotation.x -= 360f;
+
         _currentRotation.x = Mathf.Clamp(_currentRotation.x, -ClampValue, ClampValue);
-        //! NEEDS REVIEW -------------------------------------------------------------------------------------------------------------------------
-        _head.transform.rotation = Quaternion.Euler(new Vector3(-newXRotation, -newYRotation * 2f, 0f));
-        _rb.transform.localRotation = Quaternion.Euler(new Vector3(0f, -newYRotation * 2f, 0f));
+
+        _head.transform.localRotation = Quaternion.Euler(new Vector3(-newXRotation, 0f, 0f));
+        transform.localRotation = Quaternion.Euler(Vector3.up * (2f * -newYRotation));
     }
 
     // Gets movement input values.
-    private void OnMove(InputValue val) => _movementActionValue = val.Get<Vector2>() * (Time.deltaTime * MovementSpeed);
+    private void OnMove(InputValue val) => _movementActionValue = val.Get<Vector2>() * (MovementSpeed * Time.deltaTime);
     // Gets looking input values.
     private void OnLook(InputValue val) => _lookActionValue = val.Get<Vector2>() * (RotationSpeed * Time.deltaTime);
 

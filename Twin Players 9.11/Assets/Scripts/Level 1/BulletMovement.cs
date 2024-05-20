@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class BulletMovement : MonoBehaviour
 {
-    [SerializeField] private float bulletMovement = 10f;
+    [SerializeField] private float bulletMovement = 20f;
     private Rigidbody _rb;
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
         _rb.useGravity = false;
-        _rb.mass = 0f;
+        _rb.mass = 1000000f;
     }
 
     // Update is called once per frame

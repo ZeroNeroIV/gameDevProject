@@ -14,9 +14,16 @@ public class MobControl : MonoBehaviour
     void Start()
     {
     }
+      private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.collider.CompareTag("Player"))
+        {
+            Destroy(gameObject);
+        }
+    }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         gameObject.transform.position += (_chasedObjectPTransform.position - transform.position) * Time.fixedDeltaTime *
                                          _mobMovementSpeed;

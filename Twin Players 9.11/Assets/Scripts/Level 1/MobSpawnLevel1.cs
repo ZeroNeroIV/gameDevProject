@@ -1,16 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
-using System.Threading;
-using Unity.VisualScripting;
-using UnityEditor.ShaderGraph.Internal;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class MobSpawnLevel1 : MonoBehaviour
+namespace Level_1
 {
-    [SerializeField] private GameObject _mob;
-    [SerializeField] private GameObject _bossMob;
+    public class MobSpawnLevel1 : MonoBehaviour
+    {
+        [SerializeField] private GameObject mob;
+        [SerializeField] private GameObject bossMob;
 
     const float Delay = 10.0f;
     float _timer = 0;

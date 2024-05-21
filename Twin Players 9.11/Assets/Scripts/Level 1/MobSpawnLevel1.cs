@@ -11,69 +11,70 @@ namespace Level_1
         [SerializeField] private GameObject mob;
         [SerializeField] private GameObject bossMob;
 
-    const float Delay = 10.0f;
-    float _timer = 0;
-    bool _isDelayed = true;
-    // Start is called before the first frame update
-    List<GameObject> v = new List<GameObject>();
-    int _count = 0;
-    void Start()
-    {
-        Invoke("killAll", 20);
-        InvokeRepeating("habal", 0.1f ,0.5f);
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-  
-    GameObject cl;
-    void habal()
-    {
-        if(_count >= 10)
+        const float Delay = 10.0f;
+        float _timer = 0;
+        bool _isDelayed = true;
+        // Start is called before the first frame update
+        List<GameObject> v = new List<GameObject>();
+        int _count = 0;
+        void Start()
         {
-            CancelInvoke("habal");
-            InvokeRepeating("boss", 0.5f ,0.5f);
-            _count = 0;
-        }
-        _count++;
-        cl = new GameObject("");
-        cl = Instantiate(_mob, gameObject.transform.position, gameObject.transform.rotation);
-        //Destroy(cl, 10.0f);
+            Invoke("killAll", 20);
+            InvokeRepeating("habal", 0.1f, 0.5f);
 
-       v.Add(cl);
-    }
-    void boss()
-    {
-        if(_count >= 3)
+        }
+
+        // Update is called once per frame
+        void Update()
         {
-            CancelInvoke("boss");
-        }
-        _count++;
-        cl = new GameObject("");
-        cl = Instantiate(_bossMob, gameObject.transform.position, gameObject.transform.rotation);
-        //Destroy(cl, 10.0f);
 
-       v.Add(cl);
-    }
-    void killAll()
-    {
-        foreach(GameObject cl in v)
+        }
+
+        GameObject cl;
+        void habal()
         {
-            Destroy(cl , 1.0f);
+            if (_count >= 10)
+            {
+                CancelInvoke("habal");
+                InvokeRepeating("boss", 0.5f, 0.5f);
+                _count = 0;
+            }
+            _count++;
+            cl = new GameObject("");
+            cl = Instantiate(mob, gameObject.transform.position, gameObject.transform.rotation);
+            //Destroy(cl, 10.0f);
+
+            v.Add(cl);
         }
-    }
+        void boss()
+        {
+            if (_count >= 3)
+            {
+                CancelInvoke("boss");
+            }
+            _count++;
+            cl = new GameObject("");
+            cl = Instantiate(bossMob, gameObject.transform.position, gameObject.transform.rotation);
+            //Destroy(cl, 10.0f);
 
-    void FirstWave()
-    {
-    
-       
-       
+            v.Add(cl);
+        }
+        void killAll()
+        {
+            foreach (GameObject cl in v)
+            {
+                Destroy(cl, 1.0f);
+            }
+        }
 
-       
-        
+        void FirstWave()
+        {
+
+
+
+
+
+
+        }
     }
 }

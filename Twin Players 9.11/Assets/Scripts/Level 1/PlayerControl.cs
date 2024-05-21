@@ -121,6 +121,7 @@ public class PlayerControl : MonoBehaviour
 
         _currentRotation.x = Mathf.Clamp(_currentRotation.x, -ClampValue, ClampValue);
 
+        //?OPTIONAL: Try using Rigidbody.MoveRotation();
         _head.transform.localRotation = Quaternion.Euler(new Vector3(-newXRotation, 0f, 0f));
         transform.localRotation = Quaternion.Euler(Vector3.up * (2f * -newYRotation));
     }

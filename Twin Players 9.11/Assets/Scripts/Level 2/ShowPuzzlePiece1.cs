@@ -1,26 +1,13 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ShowPuzzlePiece1 : MonoBehaviour
+namespace Level_2
 {
-    [SerializeField] private GameObject cage;
-    private readonly Vector3 _cageRotation = new(2.5f, 5f, 3f);
-    private void Start()
+    public class ShowPuzzlePiece1 : MonoBehaviour
     {
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
-        cage.transform.Rotate(_cageRotation * Time.deltaTime);
-    }
-
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.collider.CompareTag("Player"))
+        [SerializeField] private GameObject cage;
+        private void OnTriggerEnter(Collider other)
         {
+            if (!other.CompareTag("Player")) return;
             Destroy(cage);
             Destroy(this);
         }

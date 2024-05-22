@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Quaternion = UnityEngine.Quaternion;
@@ -6,7 +7,7 @@ using Vector3 = UnityEngine.Vector3;
 
 /*
     This script controls all the basic player actions.
-    Like: Move, Look, Jump, Equip, Fire
+    Like: Move, Look, Jump, Fire, Changing weapons
     --ZeroNeroIV--
 */
 
@@ -14,9 +15,6 @@ namespace Level_1
 {
     public class PlayerControl : MonoBehaviour
     {
-        //! NEW INPUT SYSTEM VARIABLES:
-        // Each variable is used for its corresponding action.
-
         //** MOVEMENT: This variable is used to store the value of the movement action.
         //? (Press/Hold) - (Changing the X and Z axes for Position)
         private Vector2 _movementActionValue;
@@ -28,9 +26,7 @@ namespace Level_1
         //** FIRE: This variable is used to store the value of the fire action.
         //? (Press)
         private bool _fireActionValue;
-
         //------------------------------------------------------------------------------------------------------------//
-
         //! CUSTOM VARIABLES:
 
         private GameObject _head;
@@ -60,10 +56,8 @@ namespace Level_1
         private Vector2 _currentRotation = Vector2.zero;
 
         //? Jump height
-        private const float JumpHeight = 70f;
-
+        private const float JumpHeight = 60f;
         //------------------------------------------------------------------------------------------------------------//
-
         private void Start()
         {
             // All bullet types.
@@ -77,22 +71,22 @@ namespace Level_1
 
             Cursor.lockState = CursorLockMode.Locked;
         }
-
-        // Update is called once per frame
         private void Update()
         {
             MoveAndLook();
         }
-
-        // When this gameObject collides - once for every new collision - with any collider.
         private void OnCollisionEnter(Collision other)
         {
             if (other.collider.CompareTag("Terrain") || other.collider.CompareTag("Plate"))
                 _canMove = true;
-
         }
 
-        // When this gameObject exits/ends a collision - once for every collision exit - with any collider.
+        private void OnCollisionStay(Collision other)
+        {
+            if (other.collider.CompareTag("Terrain") || other.collider.CompareTag("Plate"))
+                _canMove = true;
+        }
+
         private void OnCollisionExit(Collision other)
         {
             if (other.collider.CompareTag("Terrain") || other.collider.CompareTag("Plate"))

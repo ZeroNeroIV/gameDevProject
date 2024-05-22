@@ -105,8 +105,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4308944480718410}
   - component: {fileID: 95844267038306482}
-  - component: {fileID: 114642546781802302}
-  - component: {fileID: 825192888286622235}
   - component: {fileID: 7241888916212727655}
   - component: {fileID: 7451445662101048740}
   m_Layer: 0
@@ -154,34 +152,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &114642546781802302
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1143180963066806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2bdf4a8e54cc06249ae87aacebbe862d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hitFX: {fileID: 1394375103646112, guid: 4a12a967a1575a74790707c2027e5b8e, type: 3}
---- !u!114 &825192888286622235
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1143180963066806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 506d6b3dc213a1c35a13404fea86c212, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _mobMovementSpeed: 15
-  _mobRotationSpeed: 15
-  _chasedObjectPTransform: {fileID: 0}
 --- !u!54 &7241888916212727655
 Rigidbody:
   m_ObjectHideFlags: 0

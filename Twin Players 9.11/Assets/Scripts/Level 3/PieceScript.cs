@@ -1,12 +1,20 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Level_3{
-    public class PieceRotation : MonoBehaviour
+namespace Level_3
+{
+    public class PieceScript : MonoBehaviour
     {
         [SerializeField] private string nextLevel;
-        private readonly Vector3 _pieceRotation = new(-4f, -7f, -2.5f);
+        private readonly Vector3 _pieceRotation = new(-8f, -14f, -5f);
         private void Update() => transform.Rotate(_pieceRotation * Time.deltaTime);
+
+        private void OnCollisionEnter(Collision other)
+        {
+            if (!other.collider.CompareTag("Player")) return;
+            Destroy(gameObject);
+        }
         private void OnDestroy()
         {
             if (string.IsNullOrEmpty(nextLevel)) return;

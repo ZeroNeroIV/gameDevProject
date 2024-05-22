@@ -47,7 +47,7 @@ namespace Level_1
         private GameObject _shootingPosition;
 
         //? Movement speed
-        private const float MovementSpeed = 40f;
+        private const float MovementSpeed = 40000f;
         private bool _canMove = true;
 
         //? Rotation speed
@@ -104,7 +104,7 @@ namespace Level_1
             if (_canMove)
             {
                 _rb.AddRelativeForce(new Vector3(_movementActionValue.x, 0f, _movementActionValue.y),
-                    ForceMode.VelocityChange);
+                    ForceMode.Force);
                 if (_movementActionValue.Equals(new Vector2(0f, 0f)))
                 {
                     _rb.constraints = RigidbodyConstraints.FreezePositionX;

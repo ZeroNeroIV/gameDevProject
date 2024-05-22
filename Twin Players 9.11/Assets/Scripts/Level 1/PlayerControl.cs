@@ -56,7 +56,7 @@ namespace Level_1
         private Vector2 _currentRotation = Vector2.zero;
 
         //? Jump height
-        private const float JumpHeight = 60f;
+        private const float JumpHeight = 30f;
         //------------------------------------------------------------------------------------------------------------//
         private void Start()
         {

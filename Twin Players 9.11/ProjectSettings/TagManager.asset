@@ -8,6 +8,9 @@ TagManager:
   - Wall
   - Bullet
   - Item
+  - Plate
+  - Enemy
+  - Cones
   layers:
   - Default
   - TransparentFX
@@ -19,7 +22,7 @@ TagManager:
   - Plane
   - Wall
   - Item
-  - 
+  - Bullet
   - 
   - 
   - 

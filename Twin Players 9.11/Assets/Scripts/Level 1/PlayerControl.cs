@@ -57,6 +57,7 @@ namespace Level_1
 
         //? Jump height
         private const float JumpHeight = 30f;
+        private bool _canJump = true;
         //------------------------------------------------------------------------------------------------------------//
         private void Start()
         {
@@ -68,6 +69,7 @@ namespace Level_1
             _head = GameObject.Find($"{gameObject.name}/Head");
             // Accessing the "Rigidbody" component.
             _rb = GetComponent<Rigidbody>();
+            _rb.angularVelocity = new Vector3(.01f, .01f, .01f);
 
             Cursor.lockState = CursorLockMode.Locked;
         }
@@ -75,34 +77,43 @@ namespace Level_1
         {
             MoveAndLook();
         }
-        private void OnCollisionEnter(Collision other)
+        private void OnTriggerEnter(Collider other)
         {
-            if (other.collider.CompareTag("Terrain") || other.collider.CompareTag("Plate"))
-                _canMove = true;
+            if (!other.CompareTag("Terrain") && !other.CompareTag("Plate")) return;
+            _canMove = true;
+            _canJump = true;
         }
 
-        private void OnCollisionStay(Collision other)
+        private void OnTriggerStay(Collider other)
         {
-            if (other.collider.CompareTag("Terrain") || other.collider.CompareTag("Plate"))
-                _canMove = true;
+            if (!other.CompareTag("Terrain") && !other.CompareTag("Plate")) return;
+            _canMove = true;
+            _canJump = true;
         }
 
-        private void OnCollisionExit(Collision other)
+        private void OnTriggerExit(Collider other)
         {
-            if (other.collider.CompareTag("Terrain") || other.collider.CompareTag("Plate"))
-                _canMove = false;
+            if (!other.CompareTag("Terrain") && !other.CompareTag("Plate")) return;
+            _canMove = false;
+            _canJump = false;
         }
 
         private void MoveAndLook()
         {
             // Movement
             if (_canMove)
-                _rb.AddRelativeForce(new Vector3(_movementActionValue.x, 0f, _movementActionValue.y), ForceMode.VelocityChange);
-            if (_canMove && _movementActionValue.Equals(new Vector2(0f, 0f)))
             {
-                _rb.isKinematic = true;
-                _rb.isKinematic = false;
+                _rb.AddRelativeForce(new Vector3(_movementActionValue.x, 0f, _movementActionValue.y),
+                    ForceMode.VelocityChange);
+                if (_movementActionValue.Equals(new Vector2(0f, 0f)))
+                {
+                    _rb.constraints = RigidbodyConstraints.FreezePositionX;
+                    _rb.constraints = RigidbodyConstraints.FreezePositionZ;
+                }
+                else
+                    _rb.constraints = RigidbodyConstraints.None;
             }
+
             // Looking
             _currentRotation.y -= _lookActionValue.x;
             _currentRotation.x += _lookActionValue.y;
@@ -137,8 +148,11 @@ namespace Level_1
 
         // Jumping when the corresponding input is pressed.
         // To jump smoothly, using rigidbody "AddForce" Method instead of normal position update.
-        private void OnJump(InputValue val) => _rb.AddForce(Vector3.up * JumpHeight, ForceMode.VelocityChange);
-
+        private void OnJump(InputValue val)
+        {
+            if (!_canJump) return;
+            _rb.AddForce(Vector3.up * JumpHeight, ForceMode.VelocityChange);
+        }
 
         // Shooting when the corresponding input is pressed.
         private void OnFire(InputValue val) => Instantiate(_bullets[_currentBullet], _shootingPosition.transform.position, _shootingPosition.transform.rotation);

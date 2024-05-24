@@ -1,13 +1,16 @@
 using UnityEngine;
 
-public class BulletLifeSpan : MonoBehaviour
+namespace Level_1
 {
-    [SerializeField] private float destructionAfterDelay = 10f;
-    private void Start() => Destroy(gameObject, destructionAfterDelay * Time.deltaTime);
-
-    private void OnCollisionEnter(Collision other)
+    public class BulletLifeSpan : MonoBehaviour
     {
-        if (other.gameObject.CompareTag("Player")) return;
-        Destroy(gameObject);
+        [SerializeField] private float destructionAfterDelay = 10f;
+        private void Start() => Destroy(gameObject, destructionAfterDelay * Time.deltaTime);
+
+        private void OnCollisionEnter(Collision other)
+        {
+            if (other.gameObject.CompareTag("Player")) return;
+            Destroy(gameObject);
+        }
     }
 }

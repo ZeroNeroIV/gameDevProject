@@ -1,31 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class MobSpawnLevel1 : MonoBehaviour
+namespace Level_1
 {
-    [SerializeField] private GameObject _mob;
-    [SerializeField] private GameObject _bossMob;
-
-    // Start is called before the first frame update
-    void Start()
+    public class MobSpawnLevel1 : MonoBehaviour
     {
-    }
+        [SerializeField] private GameObject mob;
+        [SerializeField] private GameObject bossMob;
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
-    void FirstWave()
-    {
-        for (int i = 0; i < 5; i++)
+        // Start is called before the first frame update
+        void Start()
         {
-            Instantiate(_mob, gameObject.transform.position, gameObject.transform.rotation);
-            for (int j = 0; j < 100; j++) ;
         }
 
-        for (int j = 0; j < 200; j++) ;
-        Instantiate(_bossMob, gameObject.transform.position, gameObject.transform.rotation);
+        // Update is called once per frame
+        void Update()
+        {
+        }
+
+        void FirstWave()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                Instantiate(mob, gameObject.transform.position, gameObject.transform.rotation);
+                for (int j = 0; j < 100; j++) ;
+            }
+
+            for (int j = 0; j < 200; j++) ;
+            Instantiate(bossMob, gameObject.transform.position, gameObject.transform.rotation);
+        }
     }
 }

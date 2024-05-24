@@ -5,6 +5,8 @@ namespace Level_1
     public class BulletMovement : MonoBehaviour
     {
         [SerializeField] private float bulletMovement = 20f;
+        [SerializeField] AudioSource domain;
+        [SerializeField] AudioClip dom;
         private Rigidbody _rb;
         private void Start()
         {
@@ -18,5 +20,11 @@ namespace Level_1
         {
             _rb.AddRelativeForce(0f, 0f, bulletMovement, ForceMode.VelocityChange);
         }
+        private void OnTriggerEnter(Collider other)    {
+        if (other.CompareTag("Enemy")){
+                Destroy(other.gameObject);
+            
+        }
+    }
     }
 }

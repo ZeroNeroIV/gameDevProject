@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-public class PlaneMovement : MonoBehaviour
+public class movement : MonoBehaviour
 {
     private const float Speed = 150f;
     private Vector2 _movementValue;

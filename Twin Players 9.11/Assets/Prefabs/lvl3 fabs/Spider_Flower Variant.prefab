@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spider_Flower Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 1143180963066806, guid: ec6020f1fcc21b94895899bad9b24228, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 4308944480718410, guid: ec6020f1fcc21b94895899bad9b24228, type: 3}
       propertyPath: m_LocalScale.x
       value: 8
@@ -62,6 +66,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4308944480718410, guid: ec6020f1fcc21b94895899bad9b24228, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4993431027111952660, guid: ec6020f1fcc21b94895899bad9b24228,
+        type: 3}
+      propertyPath: speed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7451445662101048740, guid: ec6020f1fcc21b94895899bad9b24228,
+        type: 3}
+      propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

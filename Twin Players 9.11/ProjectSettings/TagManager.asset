@@ -11,6 +11,10 @@ TagManager:
   - Plate
   - Enemy
   - Cones
+  - plane
+  - Tower
+  - tower
+  - Component
   layers:
   - Default
   - TransparentFX

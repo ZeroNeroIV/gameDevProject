@@ -22,7 +22,11 @@ public class PlaneCollision : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         // Check if the collided object is the tower
+<<<<<<< Updated upstream
         if (other.CompareTag("Tower"))
+=======
+        if (other.CompareTag("Plane"))
+>>>>>>> Stashed changes
         {
             // Mix all four sounds
             AudioClip mixedClip = MixSounds();

@@ -13,6 +13,9 @@ public class Spawners : MonoBehaviour
          [SerializeField] private GameObject sp1;
         [SerializeField] private GameObject sp2;
         [SerializeField] private GameObject sp3;
+      [SerializeField] AudioSource domain;
+              [SerializeField] AudioClip dom;
+
 
         // Start is called before the first frame update
         private List<GameObject> _spawners;
@@ -20,11 +23,21 @@ public class Spawners : MonoBehaviour
      List<GameObject> clones;
         void Start()
         {
+            domain.enabled = true;
+
             _spawners = new List<GameObject>{sp1,sp2, sp3};
             clones = new List<GameObject>();
             //InvokeRepeating($"Spawn", 5, 5);
             //Invoke($"Cancel", 20);
-            wave1();
+    
+            domain.clip = dom;
+           // domain.Play();
+            
+            // while(domain.isPlaying)
+            // {
+
+            // }
+                Invoke("wave1" , 21);
         }
         void killAll()
         {

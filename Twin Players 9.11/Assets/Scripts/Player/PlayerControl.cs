@@ -49,7 +49,7 @@ public class PlayerControl : MonoBehaviour
     private Vector2 _currentRotation = Vector2.zero;
 
     //? Jump height
-    private const float JumpHeight = 60f;
+    private const float JumpHeight = 30f;
     //------------------------------------------------------------------------------------------------------------//
     private void Start()
     {
@@ -86,11 +86,34 @@ public class PlayerControl : MonoBehaviour
             _canMove = false;
     }
 
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.collider.CompareTag("Terrain") || other.collider.CompareTag("Plate"))
+            _canMove = true;
+    }
+
+    private void OnCollisionStay(Collision other)
+    {
+        if (other.collider.CompareTag("Terrain") || other.collider.CompareTag("Plate"))
+            _canMove = true;
+    }
+
+    private void OnCollisionExit(Collision other)
+    {
+        if (other.collider.CompareTag("Terrain") || other.collider.CompareTag("Plate"))
+            _canMove = false;
+    }
+
     private void MoveAndLook()
     {
         // Movement
         if (_canMove)
             _rb.AddRelativeForce(new Vector3(_movementActionValue.x, 0f, _movementActionValue.y), ForceMode.VelocityChange);
+        if (_canMove && _movementActionValue.Equals(new Vector2(0f, 0f)))
+        {
+            _rb.isKinematic = true;
+            _rb.isKinematic = false;
+        }
         // Looking
         _currentRotation.y -= _lookActionValue.x;
         _currentRotation.x += _lookActionValue.y;

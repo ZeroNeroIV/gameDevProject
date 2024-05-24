@@ -16,7 +16,15 @@ namespace Level_2
         private void OnCollisionEnter(Collision other)
         {
             // Check if the collided object has the tag "Button"
-            if (!other.gameObject.CompareTag("Bullet")) return;
+            if (!other.collider.CompareTag("Bullet")) return;
+            // Call the method to perform the action when the button is hit
+            Destroy(other.gameObject);
+            ConeMove();
+        }
+        private void OnTriggerEnter(Collider other)
+        {
+            // Check if the collided object has the tag "Button"
+            if (!other.CompareTag("Bullet")) return;
             // Call the method to perform the action when the button is hit
             ConeMove();
         }

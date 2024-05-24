@@ -26,6 +26,7 @@ namespace Level_2
             // Check if the collided object has the tag "Button"
             if (!other.CompareTag("Bullet")) return;
             // Call the method to perform the action when the button is hit
+            Destroy(other.gameObject);
             ConeMove();
         }
         // This method contains the action to perform when the button is hit

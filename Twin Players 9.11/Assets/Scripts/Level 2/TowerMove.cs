@@ -25,6 +25,6 @@ namespace Level_2
         // Apply the upward movement to the tower
         private void TowerUp() => transform.Translate(0, MoveSpeed * Time.deltaTime, 0);
         // Apply the downward movement to the tower
-        private void TowerDown() => transform.Translate(0, -MoveSpeed * Time.deltaTime, 0);
+        private void TowerDown() => transform.Translate(0, -MoveSpeed / 2 * Time.deltaTime, 0);
     }
 }

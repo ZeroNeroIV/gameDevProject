@@ -11,6 +11,7 @@ TagManager:
   - Plate
   - Enemy
   - Cones
+  - MaterialExchange
   layers:
   - Default
   - TransparentFX

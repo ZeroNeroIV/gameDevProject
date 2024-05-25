@@ -8,6 +8,9 @@ using UnityEngine.InputSystem;
 */
 public class PlayerControl : MonoBehaviour
 {
+    // Material
+    private static Material _player1Material;
+    private static Material _player2Material;
     //** MOVEMENT: This variable is used to store the value of the movement action.
     //? (Press/Hold) - (Changing the X and Z axes for Position)
     private Vector2 _movementActionValue;
@@ -45,7 +48,7 @@ public class PlayerControl : MonoBehaviour
 
     //? Rotation speed
     public float rotationSpeed = 10f;
-    private const float ClampValue = 30f;
+    private const float ClampValue = 45f;
     private Vector2 _currentRotation = Vector2.zero;
 
     //? Jump height
@@ -53,6 +56,7 @@ public class PlayerControl : MonoBehaviour
     //------------------------------------------------------------------------------------------------------------//
     private void Start()
     {
+        GameObject.Find($"{gameObject.name}/Body").GetComponent<Renderer>().material = gameObject.name == "Player 1" ? _player1Material : _player2Material;
         // All bullet types.
         _bullets = new[] { bullet, iceBullet, stunBullet, poisonBullet };
         // Shooting point.
@@ -72,6 +76,16 @@ public class PlayerControl : MonoBehaviour
     {
         if (other.CompareTag("Terrain") || other.CompareTag("Plate"))
             _canMove = true;
+        if (other.CompareTag("MaterialExchange"))
+        {
+            GameObject.Find($"{gameObject.name}/Body").GetComponent<Renderer>().material =
+                other.gameObject.GetComponent<Renderer>().material;
+            if (gameObject.name.Equals("Player 1"))
+                _player1Material = other.gameObject.GetComponent<Renderer>().material;
+            else
+                _player2Material = other.gameObject.GetComponent<Renderer>().material;
+        }
+
     }
 
     private void OnTriggerStay(Collider other)
@@ -90,6 +104,15 @@ public class PlayerControl : MonoBehaviour
     {
         if (other.collider.CompareTag("Terrain") || other.collider.CompareTag("Plate"))
             _canMove = true;
+        if (other.collider.CompareTag("MaterialExchange"))
+        {
+            GameObject.Find($"{gameObject.name}/Body").GetComponent<Renderer>().material =
+                other.gameObject.GetComponent<Renderer>().material;
+            if (gameObject.name.Equals("Player 1"))
+                _player1Material = other.gameObject.GetComponent<Renderer>().material;
+            else
+                _player2Material = other.gameObject.GetComponent<Renderer>().material;
+        }
     }
 
     private void OnCollisionStay(Collision other)
@@ -118,15 +141,15 @@ public class PlayerControl : MonoBehaviour
         _currentRotation.y -= _lookActionValue.x;
         _currentRotation.x += _lookActionValue.y;
 
-        var newXRotation = Mathf.Clamp(_currentRotation.x - _lookActionValue.x, -ClampValue, ClampValue);
+        var newXRotation = Mathf.Clamp(_currentRotation.x - _lookActionValue.x, -ClampValue, ClampValue + 45);
         var newYRotation = _currentRotation.y - _lookActionValue.y;
 
-        _currentRotation.x = (_currentRotation.x + 360f) % 360f;
-
-        if (_currentRotation.x > 180f)
-            _currentRotation.x -= 360f;
-
-        _currentRotation.x = Mathf.Clamp(_currentRotation.x, -ClampValue, ClampValue);
+        // _currentRotation.x = (_currentRotation.x + 360f) % 360f;
+        //
+        // if (_currentRotation.x > 180f)
+        //     _currentRotation.x -= 360f;
+        //
+        // _currentRotation.x = Mathf.Clamp(_currentRotation.x, -ClampValue, ClampValue + 45);
 
         //?OPTIONAL: Try using Rigidbody.MoveRotation();
         _head.transform.localRotation = Quaternion.Euler(new Vector3(-newXRotation, 0f, 0f));

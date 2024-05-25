@@ -3,7 +3,15 @@ guid: 14097406204eebc448ff1cbaee5f1d50
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - bigSpider: {instanceID: 0}
+  - bigZombie: {instanceID: 0}
+  - spider: {instanceID: 0}
+  - zombie: {instanceID: 0}
+  - sp1: {instanceID: 0}
+  - sp2: {instanceID: 0}
+  - sp3: {instanceID: 0}
+  - clip: {fileID: 8300000, guid: 56dfd91af7f1c624695a839d407c1646, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

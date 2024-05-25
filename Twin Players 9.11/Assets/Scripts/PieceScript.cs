@@ -12,6 +12,7 @@ public class PieceScript : MonoBehaviour
     }
     private void OnDestroy()
     {
+
         if (SceneManager.GetActiveScene().buildIndex + 1 >= SceneManager.sceneCountInBuildSettings)
             Debug.Log("Game Ended!\nCongrats!!!");
         else

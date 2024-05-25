@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 
 public class Spawners : MonoBehaviour
@@ -16,11 +17,16 @@ public class Spawners : MonoBehaviour
     private int _cnt;
     private int _cnt2;
     private List<GameObject> _clones;
+
+    private AudioSource _source;
+    [SerializeField] private AudioClip clip;
     private void Start()
     {
+        _source = GetComponent<AudioSource>();
+        _source.clip = clip;
         _spawners = new List<GameObject>{sp1,sp2, sp3};
         _clones = new List<GameObject>();
-        Invoke(nameof(Wave1) , 15);
+        Invoke(nameof(Wave1), 15);
     }
     private void KillAll()
     {
@@ -84,5 +90,13 @@ public class Spawners : MonoBehaviour
         KillAll();
         InvokeRepeating(nameof(SpawnBigSpider), 5.5f , 2.0f);
         InvokeRepeating(nameof(SpawnBigZombie), 5.5f , 3.0f);
+        End();
+    }
+
+    private void End()
+    {
+        KillAll();
+        _source.Play();
+        Destroy(GameObject.Find("Cage"));
     }
 }

@@ -20,7 +20,7 @@ public class Spawners : MonoBehaviour
         // Start is called before the first frame update
         private List<GameObject> _spawners;
         private int _plate = 0, _cnt = 0;
-     List<GameObject> clones;
+           List<GameObject> clones;
         void Start()
         {
             domain.enabled = true;

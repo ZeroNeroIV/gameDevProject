@@ -14,13 +14,15 @@ public class Spawners : MonoBehaviour
 
     [SerializeField] private AudioClip waveEndSound; // Sound to play when all enemies are dead
 
+    [SerializeField] private GameObject cage;
+
     private List<GameObject> _spawners;
     private int _plate;
     private List<GameObject> _clones;
 
-    private bool wave1Active = true;
-    private bool wave2Active = true;
-    private bool wave3Active = true;
+    private bool _wave1Active = true;
+    private bool _wave2Active = true;
+    private bool _wave3Active = true;
 
     private int _enemiesRemainingInWave1;
     private int _enemiesRemainingInWave2;
@@ -37,7 +39,7 @@ public class Spawners : MonoBehaviour
     private void Update()
     {
         // Check if all waves have ended
-        if (!wave1Active && !wave2Active && !wave3Active && _clones.Count == 0)
+        if (!_wave1Active && !_wave2Active && !_wave3Active && _clones.Count == 0)
         {
             PlayWaveEndSound();
         }
@@ -45,7 +47,7 @@ public class Spawners : MonoBehaviour
 
     private void PlayWaveEndSound()
     {
-        if (waveEndSound != null)
+        if (waveEndSound is not null)
         {
             AudioSource.PlayClipAtPoint(waveEndSound, transform.position);
         }
@@ -69,7 +71,7 @@ public class Spawners : MonoBehaviour
         _enemiesRemainingInWave1++;
         if (_enemiesRemainingInWave1 == 10)
         {
-            wave1Active = false;
+            _wave1Active = false;
             CancelInvoke(nameof(SpawnSpider));
             StartWave2();
         }
@@ -84,7 +86,7 @@ public class Spawners : MonoBehaviour
         _enemiesRemainingInWave2++;
         if (_enemiesRemainingInWave2 == 10)
         {
-            wave2Active = false;
+            _wave2Active = false;
             CancelInvoke(nameof(SpawnZombie));
             StartWave3();
         }
@@ -99,7 +101,7 @@ public class Spawners : MonoBehaviour
         _enemiesRemainingInWave3++;
         if (_enemiesRemainingInWave3 == 11)
         {
-            wave3Active = false;
+            _wave3Active = false;
             CancelInvoke(nameof(SpawnBigSpider));
         }
     }
@@ -113,7 +115,7 @@ public class Spawners : MonoBehaviour
         _enemiesRemainingInWave3++;
         if (_enemiesRemainingInWave3 == 9)
         {
-            wave3Active = false;
+            _wave3Active = false;
             CancelInvoke(nameof(SpawnBigZombie));
         }
     }
@@ -134,5 +136,12 @@ public class Spawners : MonoBehaviour
         KillAll();
         InvokeRepeating(nameof(SpawnBigSpider), 5.5f, 2.0f);
         InvokeRepeating(nameof(SpawnBigZombie), 5.5f, 3.0f);
+        EndRound();
+    }
+
+    private void EndRound()
+    {
+        KillAll();
+        Destroy(cage, 2f);
     }
 }

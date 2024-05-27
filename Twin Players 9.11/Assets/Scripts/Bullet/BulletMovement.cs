@@ -5,8 +5,8 @@ namespace Level_1
     public class BulletMovement : MonoBehaviour
     {
         [SerializeField] private float bulletMovement = 20f;
-        [SerializeField] AudioSource domain;
-        [SerializeField] AudioClip dom;
+        [SerializeField] private AudioSource domain;
+        [SerializeField] private AudioClip dom;
         private Rigidbody _rb;
         private void Start()
         {

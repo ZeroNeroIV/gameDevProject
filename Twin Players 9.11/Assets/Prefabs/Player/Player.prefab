@@ -199,7 +199,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1617544880510365088}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!114 &6617685483246982772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -927,7 +927,6 @@ GameObject:
   - component: {fileID: -5245538897419889723}
   - component: {fileID: 7617537424392412678}
   - component: {fileID: 6126570954434676341}
-  - component: {fileID: -5713125539386673649}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -1053,24 +1052,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 2.5529232, z: 0.8857641}
   m_Center: {x: 0, y: 0.26278782, z: 0.0061705112}
---- !u!95 &-5713125539386673649
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8538930731148022551}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: bee1016cd03119f239ab7b64fd33d3a6, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0

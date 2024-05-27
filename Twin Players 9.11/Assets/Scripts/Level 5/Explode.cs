@@ -19,14 +19,14 @@ public class PlaneCollision : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnCollisionEnter( Collision other)
     {
         // Check if the collided object is the tower
-        if (other.CompareTag("Tower"))
+        if (other.collider.CompareTag("Tower"))
         {
             // Mix all four sounds
             AudioClip mixedClip = MixSounds();
-
+ Debug.Log("miao");
             // Play the mixed sound
             collisionAudioSource.PlayOneShot(mixedClip);
         }

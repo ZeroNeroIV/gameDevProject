@@ -12,6 +12,9 @@ TagManager:
   - Enemy
   - Cones
   - MaterialExchange
+  - Plane
+  - Tower
+  - component
   layers:
   - Default
   - TransparentFX

@@ -9,8 +9,8 @@ public class Chasing : MonoBehaviour
 
     private void Start()
     {
-        _player1 = GameObject.Find("/Player 1");
-        _player2 = GameObject.Find("/Player 2");
+        _player1 = GameObject.Find("Player 1");
+        _player2 = GameObject.Find("Player 2");
     }
 
     private void Update()
@@ -22,9 +22,7 @@ public class Chasing : MonoBehaviour
 
         // Calculate the direction vector
         var direction = Vector3.Min(target1.position - gameObject.transform.position, target2.position - gameObject.transform.position);
-        var closestTarget = target1;
-        if (direction.Equals(target2.position - gameObject.transform.position))
-            closestTarget = target2;
+        var closestTarget = direction.Equals(target2.position - gameObject.transform.position) ? target2 : target1;
         direction.y = 0; // Optional: Keep the y component zero to only rotate on the y-axis
 
         // Calculate the rotation towards the target

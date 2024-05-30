@@ -43,11 +43,11 @@ public class PlayerControl : MonoBehaviour
     private GameObject _shootingPosition;
 
     //? Movement speed
-    private const float MovementSpeed = 40f;
+    private const float MovementSpeed = 45f;
     private bool _canMove = true;
 
     //? Rotation speed
-    public float rotationSpeed = 10f;
+    public float rotationSpeed = 35f;
     private const float ClampValue = 45f;
     private Vector2 _currentRotation = Vector2.zero;
 
@@ -59,10 +59,10 @@ public class PlayerControl : MonoBehaviour
         GameObject.Find($"{gameObject.name}/Body").GetComponent<Renderer>().material = gameObject.name == "Player 1" ? _player1Material : _player2Material;
         // All bullet types.
         _bullets = new[] { bullet, iceBullet, stunBullet, poisonBullet };
-        // Shooting point.
-        _shootingPosition = GameObject.Find($"{gameObject.name}/Head/Shooting Point");
         // Head of the player.
         _head = GameObject.Find($"{gameObject.name}/Head");
+        // Shooting point.
+        _shootingPosition = GameObject.Find($"{gameObject.name}/Head/Shooting Point");
         // Accessing the "Rigidbody" component.
         _rb = GetComponent<Rigidbody>();
 
@@ -70,7 +70,21 @@ public class PlayerControl : MonoBehaviour
     }
     private void Update()
     {
-        MoveAndLook();
+        // Movement
+        if (_canMove)
+            _rb.AddRelativeForce(new Vector3(_movementActionValue.x, 0f, _movementActionValue.y), ForceMode.VelocityChange);
+        if (_canMove && _movementActionValue.Equals(new Vector2(0f, 0f)))
+        {
+            _rb.isKinematic = true;
+            _rb.isKinematic = false;
+        }
+        // Looking
+        // Adjust the current rotation values based on input
+        _currentRotation += new Vector2(-Mathf.Clamp(_lookActionValue.y, -ClampValue, ClampValue + 45f), _lookActionValue.x);
+
+        // Apply the rotations to the head and body
+        _head.transform.localRotation = Quaternion.Euler(_currentRotation.x * (Gamepad.current is not null ? 7f : 1), 0f, 0f);
+        transform.localRotation = Quaternion.Euler(0f, _currentRotation.y * (Gamepad.current is not null ? 7f : 1), 0f);
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -125,35 +139,6 @@ public class PlayerControl : MonoBehaviour
     {
         if (other.collider.CompareTag("Terrain") || other.collider.CompareTag("Plate"))
             _canMove = false;
-    }
-
-    private void MoveAndLook()
-    {
-        // Movement
-        if (_canMove)
-            _rb.AddRelativeForce(new Vector3(_movementActionValue.x, 0f, _movementActionValue.y), ForceMode.VelocityChange);
-        if (_canMove && _movementActionValue.Equals(new Vector2(0f, 0f)))
-        {
-            _rb.isKinematic = true;
-            _rb.isKinematic = false;
-        }
-        // Looking
-        _currentRotation.y -= _lookActionValue.x;
-        _currentRotation.x += _lookActionValue.y;
-
-        var newXRotation = Mathf.Clamp(_currentRotation.x - _lookActionValue.x, -ClampValue, ClampValue + 45);
-        var newYRotation = _currentRotation.y - _lookActionValue.y;
-
-        _currentRotation.x = (_currentRotation.x + 360f) % 360f;
-
-        if (_currentRotation.x > 180f)
-            _currentRotation.x -= 360f;
-
-        _currentRotation.x = Mathf.Clamp(_currentRotation.x, -ClampValue, ClampValue + 45);
-
-        //?OPTIONAL: Try using Rigidbody.MoveRotation();
-        _head.transform.localRotation = Quaternion.Euler(new Vector3(-newXRotation, 0f, 0f));
-        transform.localRotation = Quaternion.Euler(Vector3.up * (2f * -newYRotation));
     }
 
     // Gets movement input values.

@@ -15,7 +15,7 @@ public class SkyboxChanger : MonoBehaviour
         // }
 
         // Start the coroutine to change the skybox after 21 seconds
-        Invoke("ChangeSkyboxAfterDelay",6);
+        Invoke(nameof(ChangeSkyboxAfterDelay),6);
     }
 
     private  void ChangeSkyboxAfterDelay()

@@ -37,6 +37,6 @@ public class Hp : MonoBehaviour
     {
         //_health = _mxHealth;
         Destroy(gameObject);
-        SceneManager.LoadScene(SceneManager.loadedSceneCount);
+        SceneManager.LoadScene(1);
     }
 }

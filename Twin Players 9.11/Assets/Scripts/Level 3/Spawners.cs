@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Spawners : MonoBehaviour
 {
@@ -7,19 +8,15 @@ public class Spawners : MonoBehaviour
     [SerializeField] private GameObject bigZombie;
     [SerializeField] private GameObject spider;
     [SerializeField] private GameObject zombie;
-
     [SerializeField] private GameObject sp1;
     [SerializeField] private GameObject sp2;
     [SerializeField] private GameObject sp3;
-
+    [SerializeField] private AudioSource s;
     [SerializeField] private AudioClip waveEndSound; // Sound to play when all enemies are dead
-
-    [SerializeField] private GameObject cage;
 
     private List<GameObject> _spawners;
     private int _plate;
     private List<GameObject> _clones;
-<<<<<<< HEAD
 
     private bool _wave1Active = true;
     private bool _wave2Active = true;
@@ -28,37 +25,15 @@ public class Spawners : MonoBehaviour
     private int _enemiesRemainingInWave1;
     private int _enemiesRemainingInWave2;
     private int _enemiesRemainingInWave3;
+    private int _cnt;
+    private int _cnt2;
 
     private void Start()
     {
-        _spawners = new List<GameObject>{sp1, sp2, sp3};
-        _clones = new List<GameObject>();
-
-        StartWave1();
-=======
-    private void Start()
-    {
+        s = GetComponent<AudioSource>();
         _spawners = new List<GameObject>{sp1,sp2, sp3};
         _clones = new List<GameObject>();
-        Invoke(nameof(Wave1) , 15);
->>>>>>> parent of 4609bcf (almost done...)
-    }
-
-    private void Update()
-    {
-        // Check if all waves have ended
-        if (!_wave1Active && !_wave2Active && !_wave3Active && _clones.Count == 0)
-        {
-            PlayWaveEndSound();
-        }
-    }
-
-    private void PlayWaveEndSound()
-    {
-        if (waveEndSound is not null)
-        {
-            AudioSource.PlayClipAtPoint(waveEndSound, transform.position);
-        }
+        Invoke(nameof(StartWave1) , 15);
     }
 
     private void KillAll()
@@ -106,26 +81,11 @@ public class Spawners : MonoBehaviour
         _plate %= 3;
         var clone = Instantiate(bigSpider, _spawners[_plate].transform.position, _spawners[_plate].transform.rotation);
         _clones.Add(clone);
-<<<<<<< HEAD
         _enemiesRemainingInWave3++;
         if (_enemiesRemainingInWave3 == 11)
         {
             _wave3Active = false;
             CancelInvoke(nameof(SpawnBigSpider));
-        }
-    }
-
-    private void SpawnBigZombie()
-    {
-        _plate++;
-        _plate %= 3;
-        var clone = Instantiate(bigZombie, _spawners[_plate].transform.position, _spawners[_plate].transform.rotation);
-        _clones.Add(clone);
-        _enemiesRemainingInWave3++;
-        if (_enemiesRemainingInWave3 == 9)
-        {
-            _wave3Active = false;
-            CancelInvoke(nameof(SpawnBigZombie));
         }
     }
 
@@ -151,8 +111,9 @@ public class Spawners : MonoBehaviour
     private void EndRound()
     {
         KillAll();
-        Destroy(cage, 2f);
-=======
+        Destroy(gameObject, 3f);
+        s.clip = waveEndSound;
+        s.Play();
         if (_cnt != 11) return;
         _cnt = 0;
         CancelInvoke(nameof(SpawnBigSpider));
@@ -173,6 +134,5 @@ public class Spawners : MonoBehaviour
         KillAll();
         InvokeRepeating(nameof(SpawnBigSpider), 5.5f , 2.0f);
         InvokeRepeating(nameof(SpawnBigZombie), 5.5f , 3.0f);
->>>>>>> parent of 4609bcf (almost done...)
     }
 }

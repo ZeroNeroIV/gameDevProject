@@ -144,12 +144,12 @@ public class PlayerControl : MonoBehaviour
         var newXRotation = Mathf.Clamp(_currentRotation.x - _lookActionValue.x, -ClampValue, ClampValue + 45);
         var newYRotation = _currentRotation.y - _lookActionValue.y;
 
-        _currentRotation.x = (_currentRotation.x + 360f) % 360f;
-
-        if (_currentRotation.x > 180f)
-            _currentRotation.x -= 360f;
-
-        _currentRotation.x = Mathf.Clamp(_currentRotation.x, -ClampValue, ClampValue + 45);
+        // _currentRotation.x = (_currentRotation.x + 360f) % 360f;
+        //
+        // if (_currentRotation.x > 180f)
+        //     _currentRotation.x -= 360f;
+        //
+        // _currentRotation.x = Mathf.Clamp(_currentRotation.x, -ClampValue, ClampValue + 45);
 
         //?OPTIONAL: Try using Rigidbody.MoveRotation();
         _head.transform.localRotation = Quaternion.Euler(new Vector3(-newXRotation, 0f, 0f));
